@@ -45,7 +45,7 @@ public class IdempotentAspect {
     @Resource
     private BeanResolver beanResolver;
 
-    @Pointcut("@annotation(com.matrixboot.idempotent.annotation.Idempotent) && @annotation(idempotent)")
+    @Pointcut("@annotation(idempotent)")
     public void lockPointCut(Idempotent idempotent) {
     }
 
