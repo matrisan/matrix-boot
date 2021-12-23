@@ -10,6 +10,7 @@
         <module>matrix-redis</module>
         <module>matrix-excel</module>
         <module>matrix-idempotent</module>
+        <module>matrix-doorkeeper</module>
     </modules>
 
 <!--    <parent>-->
