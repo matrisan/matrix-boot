@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -45,11 +44,15 @@ public class IdempotentAspect {
     @Resource
     private BeanResolver beanResolver;
 
-    @Pointcut("@annotation(idempotent)")
-    public void lockPointCut(Idempotent idempotent) {
-    }
-
-    @Around("lockPointCut(idempotent)")
+    /**
+     * 对方法进行计算
+     *
+     * @param joinPoint  方法切点
+     * @param idempotent 注解
+     * @return Object
+     * @throws Throwable 执行的异常
+     */
+    @Around("@annotation(idempotent)")
     public Object around(@NotNull ProceedingJoinPoint joinPoint, Idempotent idempotent) throws Throwable {
         Object[] args = joinPoint.getArgs();
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
@@ -65,7 +68,7 @@ public class IdempotentAspect {
         String value = (String) expressionParser.parseExpression(spEl).getValue(evaluationContext);
         assert value != null;
         IdempotentMeta meta = getIdempotentMeta(idempotent);
-        Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(meta.getValue(), "", meta.getTimeout(), meta.getUnit());
+        Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(meta.getValue() + ":" + value, "", meta.getTimeout(), meta.getUnit());
         log.info("value: {} - {}", value, aBoolean);
         if (Boolean.FALSE.equals(aBoolean)) {
             throw new IdempotentException("幂等问题");
