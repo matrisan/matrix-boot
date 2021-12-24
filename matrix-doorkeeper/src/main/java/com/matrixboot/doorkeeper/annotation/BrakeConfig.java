@@ -11,11 +11,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @version 0.0.1
  */
 @EnableAspectJAutoProxy
-public class DoorkeeperConfig {
+public class BrakeConfig {
 
     @Bean
-    public DoorkeeperAspect doorkeeperAspect() {
-        return new DoorkeeperAspect();
+    public BrakeAspect doorkeeperAspect() {
+        return new BrakeAspect();
     }
 
 }

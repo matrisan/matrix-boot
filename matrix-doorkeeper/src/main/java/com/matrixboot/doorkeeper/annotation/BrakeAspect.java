@@ -21,7 +21,7 @@ import java.util.concurrent.Semaphore;
 @Aspect
 @Order(2)
 @Component
-public class DoorkeeperAspect {
+public class BrakeAspect {
 
     private final Semaphore semaphore = new Semaphore(1);
 
@@ -34,7 +34,7 @@ public class DoorkeeperAspect {
      * @throws Throwable 异常信息
      */
     @Around("@annotation(doorkeeper)")
-    public Object around(@NotNull ProceedingJoinPoint joinPoint, Doorkeeper doorkeeper) throws Throwable {
+    public Object around(@NotNull ProceedingJoinPoint joinPoint, Brake doorkeeper) throws Throwable {
         semaphore.acquire();
         Object proceed = joinPoint.proceed();
         semaphore.release();

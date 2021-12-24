@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.matrixboot.doorkeeper.annotation.DoorkeeperConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.matrixboot.doorkeeper.annotation.BrakeConfig
