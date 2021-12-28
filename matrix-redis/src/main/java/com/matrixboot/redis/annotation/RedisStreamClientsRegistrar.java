@@ -1,5 +1,6 @@
 package com.matrixboot.redis.annotation;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -39,7 +40,7 @@ public class RedisStreamClientsRegistrar implements ImportBeanDefinitionRegistra
     private Environment environment;
 
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+    public void registerBeanDefinitions(@NotNull AnnotationMetadata metadata, @NotNull BeanDefinitionRegistry registry) {
 
         LinkedHashSet<BeanDefinition> candidateComponents = new LinkedHashSet<>();
         ClassPathScanningCandidateComponentProvider scanner = getScanner();
@@ -83,7 +84,7 @@ public class RedisStreamClientsRegistrar implements ImportBeanDefinitionRegistra
         BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
     }
 
-    protected Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
+    protected Set<String> getBasePackages(@NotNull AnnotationMetadata importingClassMetadata) {
         Set<String> basePackages = new HashSet<>();
         basePackages.add(ClassUtils.getPackageName(importingClassMetadata.getClassName()));
         return basePackages;
@@ -93,19 +94,19 @@ public class RedisStreamClientsRegistrar implements ImportBeanDefinitionRegistra
     protected ClassPathScanningCandidateComponentProvider getScanner() {
         return new ClassPathScanningCandidateComponentProvider(false, this.environment) {
             @Override
-            protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
+            protected boolean isCandidateComponent(@NotNull AnnotatedBeanDefinition beanDefinition) {
                 return beanDefinition.getMetadata().isIndependent() && (!beanDefinition.getMetadata().isAnnotation());
             }
         };
     }
 
     @Override
-    public void setEnvironment(Environment environment) {
+    public void setEnvironment(@NotNull Environment environment) {
         this.environment = environment;
     }
 
     @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
+    public void setResourceLoader(@NotNull ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
 }

@@ -1,4 +1,4 @@
-package com.matrixboot.doorkeeper.annotation;
+package com.matrixboot.brake.annotation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

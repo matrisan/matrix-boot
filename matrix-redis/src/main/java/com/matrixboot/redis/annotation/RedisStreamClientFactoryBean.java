@@ -1,6 +1,7 @@
 package com.matrixboot.redis.annotation;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -35,7 +36,7 @@ public class RedisStreamClientFactoryBean implements FactoryBean<Object>, Initia
         return Proxy.newProxyInstance(type.getClassLoader(), new Class<?>[]{type}, handler);
     }
 
-    private Map<Method, InvocationHandlerFactory.MethodHandler> getMethodHandler() {
+    private @NotNull Map<Method, InvocationHandlerFactory.MethodHandler> getMethodHandler() {
         Map<Method, InvocationHandlerFactory.MethodHandler> map = new HashMap<>();
         for (Method method : type.getMethods()) {
             if (method.isAnnotationPresent(RedisStreamEndpoint.class)) {
@@ -57,7 +58,7 @@ public class RedisStreamClientFactoryBean implements FactoryBean<Object>, Initia
     }
 
     @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    public void setBeanFactory(@NotNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
     }
 

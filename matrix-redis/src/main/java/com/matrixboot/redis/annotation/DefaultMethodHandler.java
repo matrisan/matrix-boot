@@ -2,6 +2,7 @@ package com.matrixboot.redis.annotation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.connection.stream.StreamRecords;
@@ -26,14 +27,14 @@ public class DefaultMethodHandler implements InvocationHandlerFactory.MethodHand
 
     private final ObjectMapper objectMapper;
 
-    public DefaultMethodHandler(RedisStreamEndpointMeta meta, BeanFactory beanFactory) {
+    public DefaultMethodHandler(RedisStreamEndpointMeta meta, @NotNull BeanFactory beanFactory) {
         this.meta = meta;
         this.stringRedisTemplate = beanFactory.getBean(StringRedisTemplate.class);
         this.objectMapper = beanFactory.getBean(ObjectMapper.class);
     }
 
     @Override
-    public Object invoke(Object[] argv) {
+    public Object invoke(Object @NotNull [] argv) {
         Assert.isTrue(argv.length == 1, "参数的个数必须为 1");
         Object oneArg = argv[0];
         if (oneArg instanceof Collection) {

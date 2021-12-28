@@ -1,4 +1,4 @@
-package com.matrixboot.doorkeeper.annotation;
+package com.matrixboot.brake.annotation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -28,13 +28,13 @@ public class BrakeAspect {
     /**
      * AOP 切面
      *
-     * @param joinPoint  ProceedingJoinPoint
-     * @param doorkeeper Doorkeeper
+     * @param joinPoint ProceedingJoinPoint
+     * @param brake     Brake
      * @return Object
      * @throws Throwable 异常信息
      */
-    @Around("@annotation(doorkeeper)")
-    public Object around(@NotNull ProceedingJoinPoint joinPoint, Brake doorkeeper) throws Throwable {
+    @Around("@annotation(brake)")
+    public Object around(@NotNull ProceedingJoinPoint joinPoint, Brake brake) throws Throwable {
         semaphore.acquire();
         Object proceed = joinPoint.proceed();
         semaphore.release();
