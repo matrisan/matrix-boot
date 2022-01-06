@@ -1,11 +1,11 @@
 package com.matrixboot.validation.validator;
 
 import cn.hutool.core.lang.Validator;
-import com.matrixboot.validation.constraint.MobilePhone;
+import com.matrixboot.validation.constraint.IdCard;
+import com.matrixboot.validation.constraint.Mac;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
  * @author shishaodong
  * @version 0.0.1
  */
-public class MobileValidator implements ConstraintValidator<MobilePhone, String> {
-    
+public class MacValidator implements ConstraintValidator<Mac, String> {
+
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return Validator.isMobile(s);
+        return Validator.isMac(s);
     }
 }
