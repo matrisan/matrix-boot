@@ -65,8 +65,7 @@ public class IdempotentAspect {
             evaluationContext.setVariable(paramName, args[i]);
         }
         String spEl = idempotent.value();
-        String value = (String) expressionParser.parseExpression(spEl).getValue(evaluationContext);
-        assert value != null;
+        String value = expressionParser.parseExpression(spEl).getValue(evaluationContext) + "";
         IdempotentMeta meta = getIdempotentMeta(idempotent);
         Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(meta.getValue() + ":" + value, "", meta.getTimeout(), meta.getUnit());
         log.info("value: {} - {}", value, aBoolean);
