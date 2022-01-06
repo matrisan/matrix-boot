@@ -1,5 +1,6 @@
 package com.matrixboot.validation.validator;
 
+import cn.hutool.core.lang.Validator;
 import com.matrixboot.validation.constraint.MobilePhone;
 
 import javax.validation.ConstraintValidator;
@@ -19,6 +20,6 @@ public class MobileValidator implements ConstraintValidator<MobilePhone, String>
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return CHINA_PATTERN.matcher(s).matches();
+        return Validator.isMoney(s);
     }
 }

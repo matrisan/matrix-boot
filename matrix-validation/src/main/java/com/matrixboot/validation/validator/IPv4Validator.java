@@ -1,5 +1,6 @@
 package com.matrixboot.validation.validator;
 
+import cn.hutool.core.lang.Validator;
 import com.matrixboot.validation.constraint.IPv4;
 
 import javax.validation.ConstraintValidator;
@@ -16,6 +17,6 @@ public class IPv4Validator implements ConstraintValidator<IPv4, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+        return Validator.isIpv4(s);
     }
 }

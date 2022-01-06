@@ -1,5 +1,6 @@
 package com.matrixboot.validation.validator;
 
+import cn.hutool.core.lang.Validator;
 import com.matrixboot.validation.constraint.IPv6;
 
 import javax.validation.ConstraintValidator;
@@ -17,6 +18,7 @@ public class IPv6Validator implements ConstraintValidator<IPv6, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+        return Validator.isIpv6(s);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.matrixboot.validation.validator;
 
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.IdcardUtil;
 import com.matrixboot.validation.constraint.IdCard;
 
@@ -18,6 +19,6 @@ public class IdCardValidator implements ConstraintValidator<IdCard, String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return IdcardUtil.isValidCard(s);
+        return Validator.isCitizenId(s);
     }
 }
