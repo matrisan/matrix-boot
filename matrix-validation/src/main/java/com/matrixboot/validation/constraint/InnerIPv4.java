@@ -1,6 +1,6 @@
 package com.matrixboot.validation.constraint;
 
-import com.matrixboot.validation.validator.IPv4Validator;
+import com.matrixboot.validation.validator.InnerIPv4Validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -19,8 +19,8 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = IPv4Validator.class)
-public @interface IPv4 {
+@Constraint(validatedBy = InnerIPv4Validator.class)
+public @interface InnerIPv4 {
 
     String message() default "";
 

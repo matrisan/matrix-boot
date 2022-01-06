@@ -1,9 +1,10 @@
 package com.matrixboot.validation.validator;
 
-import com.matrixboot.validation.constraint.IPv4;
+import com.matrixboot.validation.constraint.MobilePhone;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -12,10 +13,12 @@ import javax.validation.ConstraintValidatorContext;
  * @author shishaodong
  * @version 0.0.1
  */
-public class IPv4Validator implements ConstraintValidator<IPv4, String> {
+public class MobileValidator implements ConstraintValidator<MobilePhone, String> {
+
+    private static final Pattern CHINA_PATTERN = Pattern.compile("^[1]\\d{10}$");
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+        return CHINA_PATTERN.matcher(s).matches();
     }
 }
