@@ -2,6 +2,7 @@ package com.matrixboot.brake.annotation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * <p>
@@ -14,8 +15,18 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class BrakeConfig {
 
     @Bean
-    public BrakeAspect doorkeeperAspect() {
-        return new BrakeAspect();
+    public BrakeProperties brakeProperties(){
+        return new BrakeProperties();
+    }
+
+    @Bean
+    public BrakeAspect doorkeeperAspect(ISemaphore iSemaphore, BrakeProperties properties) {
+        return new BrakeAspect(iSemaphore, properties);
+    }
+
+    @Bean
+    public ISemaphore iSemaphore(StringRedisTemplate stringRedisTemplate) {
+        return new SemaphoreRedisImpl(stringRedisTemplate);
     }
 
 }

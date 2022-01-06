@@ -6,6 +6,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -20,6 +21,16 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface Brake {
 
+    /**
+     * 这个值必填,不同的接口填写的不一样
+     *
+     * @return String
+     */
     String value();
+
+    long timeout() default 1;
+
+    TimeUnit unit() default TimeUnit.SECONDS;
+
 
 }

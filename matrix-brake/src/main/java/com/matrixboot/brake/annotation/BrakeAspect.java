@@ -1,5 +1,6 @@
 package com.matrixboot.brake.annotation;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -7,8 +8,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.Semaphore;
 
 /**
  * <p>
@@ -21,9 +20,12 @@ import java.util.concurrent.Semaphore;
 @Aspect
 @Order(2)
 @Component
+@AllArgsConstructor
 public class BrakeAspect {
 
-    private final Semaphore semaphore = new Semaphore(1);
+    private final ISemaphore semaphore;
+
+    private final BrakeProperties properties;
 
     /**
      * AOP 切面
@@ -35,9 +37,14 @@ public class BrakeAspect {
      */
     @Around("@annotation(brake)")
     public Object around(@NotNull ProceedingJoinPoint joinPoint, Brake brake) throws Throwable {
-        semaphore.acquire();
-        Object proceed = joinPoint.proceed();
-        semaphore.release();
+        BrakeMeta meta = new BrakeMeta(brake, properties);
+        semaphore.tryAcquire(meta);
+        Object proceed;
+        try {
+            proceed = joinPoint.proceed();
+        } finally {
+            semaphore.release(meta.getKey());
+        }
         return proceed;
     }
 
