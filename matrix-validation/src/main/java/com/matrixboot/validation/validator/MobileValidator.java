@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * @version 0.0.1
  */
 public class MobileValidator implements ConstraintValidator<MobilePhone, String> {
-    
+
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
         return Validator.isMobile(s);
