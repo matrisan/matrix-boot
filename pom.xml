@@ -11,6 +11,7 @@
         <module>matrix-excel</module>
         <module>matrix-idempotent</module>
         <module>matrix-brake</module>
+        <module>matrix-access-limit</module>
     </modules>
 
 <!--    <parent>-->
