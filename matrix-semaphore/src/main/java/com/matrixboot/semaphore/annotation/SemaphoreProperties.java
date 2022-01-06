@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @ConfigurationProperties(prefix = "com.matrixboot.brake")
-public class BrakeProperties {
+public class SemaphoreProperties {
 
     private String prefix;
 

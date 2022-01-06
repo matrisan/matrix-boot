@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,29 +21,29 @@ import org.springframework.stereotype.Component;
 @Order(2)
 @Component
 @AllArgsConstructor
-public class BrakeAspect {
+public class SemaphoreAspect {
 
     private final ISemaphore semaphore;
 
-    private final BrakeProperties properties;
+    private final SemaphoreProperties properties;
 
     /**
      * AOP 切面
      *
      * @param joinPoint ProceedingJoinPoint
-     * @param brake     Brake
+     * @param semaphore     Brake
      * @return Object
      * @throws Throwable 异常信息
      */
-    @Around("@annotation(brake)")
-    public Object around(@NotNull ProceedingJoinPoint joinPoint, Brake brake) throws Throwable {
-        BrakeMeta meta = new BrakeMeta(brake, properties);
-        semaphore.tryAcquire(meta);
+    @Around("@annotation(semaphore)")
+    public Object around(@NotNull ProceedingJoinPoint joinPoint, Semaphore semaphore) throws Throwable {
+        SemaphoreMeta meta = new SemaphoreMeta(semaphore, properties);
+        this.semaphore.tryAcquire(meta);
         Object proceed;
         try {
             proceed = joinPoint.proceed();
         } finally {
-            semaphore.release(meta.getKey());
+            this.semaphore.release(meta.getKey());
         }
         return proceed;
     }

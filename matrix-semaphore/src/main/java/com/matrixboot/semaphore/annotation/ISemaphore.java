@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 /**
  * TODO
@@ -13,7 +13,7 @@ public interface ISemaphore {
     @Deprecated
     void acquire(String key);
 
-    boolean tryAcquire(BrakeMeta meta);
+    boolean tryAcquire(SemaphoreMeta meta);
 
     void release(String key);
 

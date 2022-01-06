@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 import org.springframework.util.StringUtils;
 
@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
  * @author shishaodong
  * @version 0.0.1
  */
-public class BrakeMeta {
+public class SemaphoreMeta {
 
-    private final Brake brake;
+    private final Semaphore brake;
 
-    private final BrakeProperties properties;
+    private final SemaphoreProperties properties;
 
-    public BrakeMeta(Brake brake, BrakeProperties properties) {
+    public SemaphoreMeta(Semaphore brake, SemaphoreProperties properties) {
         this.brake = brake;
         this.properties = properties;
     }

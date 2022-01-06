@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -33,7 +33,7 @@ public class SemaphoreRedisImpl implements ISemaphore {
     }
 
     @Override
-    public boolean tryAcquire(@NotNull BrakeMeta meta) {
+    public boolean tryAcquire(@NotNull SemaphoreMeta meta) {
         return Boolean.TRUE.equals(stringRedisTemplate.opsForValue().setIfAbsent(
                 meta.getKey(), "",
                 meta.getTimeout(),

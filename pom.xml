@@ -10,16 +10,10 @@
         <module>matrix-redis</module>
         <module>matrix-excel</module>
         <module>matrix-idempotent</module>
-        <module>matrix-brake</module>
+        <module>matrix-semaphore</module>
         <module>matrix-access-limit</module>
     </modules>
 
-<!--    <parent>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-parent</artifactId>-->
-<!--        <version>2.5.6</version>-->
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
-<!--    </parent>-->
 
     <groupId>com.matrixboot</groupId>
     <artifactId>matrix-boot</artifactId>

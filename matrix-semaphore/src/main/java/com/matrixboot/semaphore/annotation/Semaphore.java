@@ -1,4 +1,4 @@
-package com.matrixboot.brake.annotation;
+package com.matrixboot.semaphore.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface Brake {
+public @interface Semaphore {
 
     /**
      * 这个值必填,不同的接口填写的不一样
