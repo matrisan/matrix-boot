@@ -4,20 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.OrderComparator;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.expression.BeanResolver;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Method;
-import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
@@ -30,19 +28,22 @@ import java.util.Objects;
 @Aspect
 @Order(2)
 @Component
-public class IdempotentAspect {
-
-    @Resource
-    private ExpressionParser expressionParser;
-
-    @Resource
-    private ParameterNameDiscoverer parameterNameDiscoverer;
+public class IdempotentAspect implements InitializingBean {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
-    private BeanResolver beanResolver;
+    private HttpServletRequest httpServletRequest;
+
+    @Resource
+    private IdempotentProperties properties;
+
+    @Resource
+    private RedisScript<Boolean> redisScript;
+
+    @Resource
+    private List<IIdempotentHook> hooks;
 
     /**
      * 对方法进行计算
@@ -54,30 +55,20 @@ public class IdempotentAspect {
      */
     @Around("@annotation(idempotent)")
     public Object around(@NotNull ProceedingJoinPoint joinPoint, Idempotent idempotent) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
-        evaluationContext.setBeanResolver(beanResolver);
-        String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
-        for (int i = 0; i < Objects.requireNonNull(parameterNames).length; i++) {
-            String paramName = parameterNames[i];
-            // 参数名称和参数对象设置到表达式上下文对象里,这样才能通过 #reqVo 这样的写法来引用方法参数
-            evaluationContext.setVariable(paramName, args[i]);
+        String redisKey = IdempotentCommon.getRedisKey(properties, getToken());
+        if (Boolean.TRUE.equals(stringRedisTemplate.execute(redisScript, Collections.singletonList(redisKey)))) {
+            return joinPoint.proceed();
         }
-        String spEl = idempotent.value();
-        String value = expressionParser.parseExpression(spEl).getValue(evaluationContext) + "";
-        IdempotentMeta meta = getIdempotentMeta(idempotent);
-        Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(meta.getValue() + ":" + value, "", meta.getTimeout(), meta.getUnit());
-        log.info("value: {} - {}", value, aBoolean);
-        if (Boolean.FALSE.equals(aBoolean)) {
-            throw new IdempotentException("幂等问题");
-        }
-        return joinPoint.proceed();
+        hooks.forEach(IIdempotentHook::invoke);
+        throw new IdempotentException("幂等问题");
     }
 
-    @Contract("_ -> new")
-    private @NotNull IdempotentMeta getIdempotentMeta(@NotNull Idempotent idempotent) {
-        return new IdempotentMeta(idempotent.value(), idempotent.timeout(), idempotent.unit());
+    private String getToken() {
+        return httpServletRequest.getHeader("idempotent");
     }
 
+    @Override
+    public void afterPropertiesSet() {
+        OrderComparator.sort(hooks);
+    }
 }

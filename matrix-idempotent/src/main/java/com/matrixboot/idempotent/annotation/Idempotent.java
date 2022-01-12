@@ -6,7 +6,6 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -64,9 +63,5 @@ import java.util.concurrent.TimeUnit;
 public @interface Idempotent {
 
     String value();
-
-    int timeout() default 1;
-
-    TimeUnit unit() default TimeUnit.MINUTES;
 
 }

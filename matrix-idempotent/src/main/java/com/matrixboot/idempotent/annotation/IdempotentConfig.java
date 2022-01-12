@@ -1,17 +1,15 @@
 package com.matrixboot.idempotent.annotation;
 
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Role;
-import org.springframework.context.expression.BeanFactoryResolver;
-import org.springframework.core.DefaultParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.expression.BeanResolver;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.core.io.Resource;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 
 /**
  * <p>
@@ -24,29 +22,30 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 public class IdempotentConfig {
 
     @Bean
+    @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    public IdempotentProperties idempotentProperties() {
+        return new IdempotentProperties();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public IdempotentAspect idempotentAspect() {
         return new IdempotentAspect();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ExpressionParser expressionParser() {
-        return new SpelExpressionParser();
-    }
+    @Value("classpath:script/idempotent.lua")
+    private Resource resource;
 
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ParameterNameDiscoverer parameterNameDiscoverer() {
-        return new DefaultParameterNameDiscoverer();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public BeanResolver beanResolver(BeanFactory beanFactory) {
-        return new BeanFactoryResolver(beanFactory);
+    public RedisScript<Boolean> redisScript() {
+        DefaultRedisScript<Boolean> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(resource));
+        script.setResultType(Boolean.class);
+        return script;
     }
 
 }

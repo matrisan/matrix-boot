@@ -1,5 +1,7 @@
 package com.matrixboot.idempotent.annotation;
 
+
+
 /**
  * 幂等异常的父类
  * <p>
@@ -10,6 +12,8 @@ package com.matrixboot.idempotent.annotation;
  */
 
 public class IdempotentException extends RuntimeException {
+
+    private static final long serialVersionUID = -2655647751808440122L;
 
     public IdempotentException(String message) {
         super(message);
