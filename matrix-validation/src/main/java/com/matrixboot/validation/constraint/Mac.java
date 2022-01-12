@@ -1,6 +1,5 @@
 package com.matrixboot.validation.constraint;
 
-import com.matrixboot.validation.validator.IdCardValidator;
 import com.matrixboot.validation.validator.MacValidator;
 
 import javax.validation.Constraint;

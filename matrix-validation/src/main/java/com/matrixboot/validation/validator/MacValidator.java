@@ -1,7 +1,6 @@
 package com.matrixboot.validation.validator;
 
 import cn.hutool.core.lang.Validator;
-import com.matrixboot.validation.constraint.IdCard;
 import com.matrixboot.validation.constraint.Mac;
 
 import javax.validation.ConstraintValidator;
