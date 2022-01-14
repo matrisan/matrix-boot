@@ -6,12 +6,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>matrix-validation</module>
-        <module>matrix-redis</module>
-        <module>matrix-excel</module>
-        <module>matrix-idempotent</module>
-        <module>matrix-semaphore</module>
-        <module>matrix-access-limit</module>
+        <module>matrix-validation-spring-boot-starter</module>
+        <module>matrix-redis-stream-spring-boot-starter</module>
+        <module>matrix-excel-spring-boot-starter</module>
+        <module>matrix-idempotent-spring-boot-starter</module>
+        <module>matrix-semaphore-spring-boot-starter</module>
+        <module>matrix-access-limit-spring-boot-starter</module>
     </modules>
 
 
