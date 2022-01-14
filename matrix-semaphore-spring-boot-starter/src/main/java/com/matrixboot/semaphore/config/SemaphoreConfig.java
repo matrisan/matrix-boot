@@ -1,4 +1,4 @@
-package com.matrixboot.semaphore.annotation;
+package com.matrixboot.semaphore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
