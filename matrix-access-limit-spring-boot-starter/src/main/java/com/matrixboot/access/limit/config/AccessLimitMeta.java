@@ -33,7 +33,7 @@ public class AccessLimitMeta {
 
     String methodName;
 
-    public AccessLimitMeta(@NotNull AccessLimit accessLimit, Method method) {
+    public AccessLimitMeta(@NotNull AccessLimit accessLimit, @NotNull Method method) {
         this.value = accessLimit.value();
         this.reveal = accessLimit.reveal();
         this.times = accessLimit.times();

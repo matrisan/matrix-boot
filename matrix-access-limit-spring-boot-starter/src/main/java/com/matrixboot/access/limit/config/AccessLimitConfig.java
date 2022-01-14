@@ -17,8 +17,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.scripting.support.StaticScriptSource;
 
 /**
+ * 请求速率的一些限制
  * <p>
- * create in 2021/12/16 10:36 AM
+ * create in 2022/1/14 5:08 PM
  *
  * @author shishaodong
  * @version 0.0.1
@@ -26,9 +27,15 @@ import org.springframework.scripting.support.StaticScriptSource;
 @EnableAspectJAutoProxy
 public class AccessLimitConfig {
 
+
+    /**
+     * Redis 脚本,主要的一些判断逻辑均在 redis 中判断
+     *
+     * @return RedisScript
+     */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public RedisScript<Boolean> redisScript() {
+    RedisScript<Boolean> redisScript() {
         DefaultRedisScript<Boolean> script = new DefaultRedisScript<>();
         String scriptStr = "local threshold = tonumber(ARGV[2]);\n" +
                 "local exe = redis.call(\"SETNX\", KEYS[1], 1);\n" +
@@ -46,47 +53,42 @@ public class AccessLimitConfig {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public AccessLimitAspect idempotentAspect() {
-        return new AccessLimitAspect();
+    public AccessLimitAnnotationBeanPostProcessor accessLimitAnnotationBeanPostProcessor() {
+        return new AccessLimitAnnotationBeanPostProcessor();
     }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public AccessLimitProperties accessLimitProperties(){
+    AccessLimitRedisServiceImpl accessLimitRedisService() {
+        return new AccessLimitRedisServiceImpl();
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    AccessLimitProperties accessLimitProperties() {
         return new AccessLimitProperties();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ExpressionParser expressionParser() {
+    ExpressionParser expressionParser() {
         return new SpelExpressionParser();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public ParameterNameDiscoverer parameterNameDiscoverer() {
+    ParameterNameDiscoverer parameterNameDiscoverer() {
         return new DefaultParameterNameDiscoverer();
     }
 
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public BeanResolver beanResolver(BeanFactory beanFactory) {
+    BeanResolver beanResolver(BeanFactory beanFactory) {
         return new BeanFactoryResolver(beanFactory);
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-//    public StringRedisConnection getStringRedisConnection(@NotNull StringRedisTemplate stringRedisTemplate) {
-//        final AtomicReference<StringRedisConnection> redisConnection = new AtomicReference<>();
-//        stringRedisTemplate.execute((RedisCallback<Object>) connection -> {
-//            redisConnection.set((StringRedisConnection) connection);
-//            return null;
-//        });
-//        return redisConnection.get();
-//    }
 
 }

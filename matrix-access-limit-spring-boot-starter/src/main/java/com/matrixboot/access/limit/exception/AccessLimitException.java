@@ -1,6 +1,5 @@
-package com.matrixboot.access.limit.config;
+package com.matrixboot.access.limit.exception;
 
-import com.matrixboot.access.limit.exception.AbstractAccessLimitException;
 
 /**
  * <p>

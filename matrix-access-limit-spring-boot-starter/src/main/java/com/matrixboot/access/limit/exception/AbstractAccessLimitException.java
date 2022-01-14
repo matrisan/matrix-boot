@@ -1,7 +1,7 @@
 package com.matrixboot.access.limit.exception;
 
 /**
- * TODO
+ * 请求速率的父类异常
  * <p>
  * create in 2022/1/14 4:54 PM
  *
@@ -12,7 +12,7 @@ public abstract class AbstractAccessLimitException extends RuntimeException {
 
     private static final long serialVersionUID = -487109143209292995L;
 
-    public AbstractAccessLimitException(String message) {
+    protected AbstractAccessLimitException(String message) {
         super(message);
     }
 }

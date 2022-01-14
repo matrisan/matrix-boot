@@ -1,5 +1,7 @@
 package com.matrixboot.access.limit.annotation;
 
+import com.matrixboot.access.limit.exception.AccessLimitException;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -30,7 +32,7 @@ public @interface AccessLimit {
 
     /**
      * 发生请求限制问题时,回调的函数,
-     * 如果不写则抛出异常,需要玩家自己去捕获这个异常 {@link com.matrixboot.access.limit.config.AccessLimitException}
+     * 如果不写则抛出异常,需要玩家自己去捕获这个异常 {@link AccessLimitException}
      *
      * @return String
      */

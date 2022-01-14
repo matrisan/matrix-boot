@@ -1,7 +1,6 @@
-package com.matrixboot.access.limit.config2;
+package com.matrixboot.access.limit.config;
 
 import com.matrixboot.access.limit.annotation.AccessLimit;
-import com.matrixboot.access.limit.config.AccessLimitMeta;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -32,7 +31,7 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
     private BeanFactory beanFactory;
 
     @Override
-    public Object postProcessAfterInitialization(@NotNull Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(@NotNull Object bean, @NotNull String beanName) throws BeansException {
         Map<Method, AccessLimitMeta> anno = findAnno(bean.getClass());
         if (anno.isEmpty()) {
             return bean;

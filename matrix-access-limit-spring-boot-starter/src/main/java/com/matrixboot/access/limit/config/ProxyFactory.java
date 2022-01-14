@@ -1,7 +1,6 @@
-package com.matrixboot.access.limit.config2;
+package com.matrixboot.access.limit.config;
 
-import com.matrixboot.access.limit.config.AccessLimitException;
-import com.matrixboot.access.limit.config.AccessLimitMeta;
+import com.matrixboot.access.limit.exception.AccessLimitException;
 import org.jetbrains.annotations.NotNull;
 import org.joor.Reflect;
 import org.springframework.cglib.proxy.Enhancer;
@@ -51,7 +50,7 @@ public class ProxyFactory implements MethodInterceptor {
     public Object intercept(Object o, @NotNull Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         AccessLimitMeta accessLimitMeta = anno.get(method);
         try {
-            service.check(method, objects, accessLimitMeta);
+            service.doCheck(method, objects, accessLimitMeta);
             return method.invoke(target, objects);
         } catch (AccessLimitException exception) {
             if (StringUtils.hasText(accessLimitMeta.getReveal())) {
