@@ -1,20 +1,15 @@
-package com.matrixboot.access.limit.config;
+package com.matrixboot.access.limit.config2;
 
-import com.matrixboot.access.limit.annotation.AccessLimit;
+import com.matrixboot.access.limit.config.AccessLimitException;
+import com.matrixboot.access.limit.config.AccessLimitMeta;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
@@ -23,16 +18,13 @@ import java.util.Objects;
 
 /**
  * <p>
- * create in 2021/12/16 9:58 AM
+ * create in 2022/1/14 4:59 PM
  *
  * @author shishaodong
  * @version 0.0.1
  */
 @Slf4j
-@Aspect
-@Order(2)
-@Component
-public class AccessLimitAspect {
+public class AccessLimitRedisService implements IAccessLimitService, InitializingBean {
 
     @Resource
     private ExpressionParser expressionParser;
@@ -49,21 +41,10 @@ public class AccessLimitAspect {
     @Resource
     private RedisScript<Boolean> redisScript;
 
-    /**
-     * 对方法进行计算
-     *
-     * @param joinPoint   方法切点
-     * @param accessLimit 注解
-     * @return Object
-     * @throws Throwable 执行的异常
-     */
-    @Around("@annotation(accessLimit)")
-    public Object around(@NotNull ProceedingJoinPoint joinPoint, AccessLimit accessLimit) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        AccessLimitMeta meta = new AccessLimitMeta(accessLimit, method);
-        StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
-        evaluationContext.setBeanResolver(beanResolver);
+    private StandardEvaluationContext evaluationContext;
+
+    @Override
+    public void check(Method method, Object[] args, AccessLimitMeta meta) {
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
         for (int i = 0; i < Objects.requireNonNull(parameterNames).length; i++) {
             String paramName = parameterNames[i];
@@ -78,7 +59,13 @@ public class AccessLimitAspect {
         if (Boolean.TRUE.equals(aBoolean)) {
             throw new AccessLimitException("限流问题");
         }
-        return joinPoint.proceed();
+
+
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        evaluationContext = new StandardEvaluationContext();
+        evaluationContext.setBeanResolver(beanResolver);
+    }
 }

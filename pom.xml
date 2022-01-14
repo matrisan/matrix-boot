@@ -29,8 +29,8 @@
         </license>
     </licenses>
     <scm>
-        <url>https://github.com/raigors/matrix-boot</url>
-        <connection>https://github.com/raigors/matrix-boot.git</connection>
+        <url>https://github.com/miverse/matrix-boot</url>
+        <connection>https://github.com/miverse/matrix-boot.git</connection>
     </scm>
     <developers>
         <developer>
@@ -100,23 +100,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--    <build>-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.springframework.boot</groupId>-->
-    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-    <!--                <configuration>-->
-    <!--                    <excludes>-->
-    <!--                        <exclude>-->
-    <!--                            <groupId>org.projectlombok</groupId>-->
-    <!--                            <artifactId>lombok</artifactId>-->
-    <!--                        </exclude>-->
-    <!--                    </excludes>-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
-
     <profiles>
         <!-- Deployment profile (required so these plugins are only used when deploying) -->
         <profile>
@@ -140,18 +123,20 @@
         </profile>
     </profiles>
 
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Nexus Snapshot Repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+
+
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <name>Nexus Release Repository</name>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>sonatype-nexus-snapshots</id>-->
+<!--            <name>Nexus Snapshot Repository</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <build>
         <pluginManagement>

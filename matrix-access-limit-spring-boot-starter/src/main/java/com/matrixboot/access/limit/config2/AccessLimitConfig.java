@@ -1,5 +1,6 @@
-package com.matrixboot.access.limit.config;
+package com.matrixboot.access.limit.config2;
 
+import com.matrixboot.access.limit.config.AccessLimitProperties;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -17,14 +18,16 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.scripting.support.StaticScriptSource;
 
 /**
+ * TODO
  * <p>
- * create in 2021/12/16 10:36 AM
+ * create in 2022/1/14 5:08 PM
  *
  * @author shishaodong
  * @version 0.0.1
  */
 @EnableAspectJAutoProxy
 public class AccessLimitConfig {
+
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -46,8 +49,14 @@ public class AccessLimitConfig {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public AccessLimitAspect idempotentAspect() {
-        return new AccessLimitAspect();
+    public AccessLimitAnnotationBeanPostProcessor accessLimitAnnotationBeanPostProcessor() {
+        return new AccessLimitAnnotationBeanPostProcessor();
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+    AccessLimitRedisService accessLimitRedisService(){
+        return new AccessLimitRedisService();
     }
 
     @Bean
@@ -77,16 +86,5 @@ public class AccessLimitConfig {
         return new BeanFactoryResolver(beanFactory);
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean
-//    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-//    public StringRedisConnection getStringRedisConnection(@NotNull StringRedisTemplate stringRedisTemplate) {
-//        final AtomicReference<StringRedisConnection> redisConnection = new AtomicReference<>();
-//        stringRedisTemplate.execute((RedisCallback<Object>) connection -> {
-//            redisConnection.set((StringRedisConnection) connection);
-//            return null;
-//        });
-//        return redisConnection.get();
-//    }
 
 }

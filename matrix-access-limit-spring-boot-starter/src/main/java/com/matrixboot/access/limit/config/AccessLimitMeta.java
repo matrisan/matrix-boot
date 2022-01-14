@@ -1,12 +1,14 @@
 package com.matrixboot.access.limit.config;
 
+import com.matrixboot.access.limit.annotation.AccessLimit;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Method;
 
 /**
  * <p>
@@ -29,11 +31,21 @@ public class AccessLimitMeta {
 
     Integer timeout;
 
-    public String getTimes(){
+    String methodName;
+
+    public AccessLimitMeta(@NotNull AccessLimit accessLimit, Method method) {
+        this.value = accessLimit.value();
+        this.reveal = accessLimit.reveal();
+        this.times = accessLimit.times();
+        this.timeout = accessLimit.timeout();
+        this.methodName = method.getName();
+    }
+
+    public String getTimes() {
         return times + "";
     }
 
-    public String getTimeout(){
+    public String getTimeout() {
         return timeout + "";
     }
 

@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 请求速率限制注解
  * <p>
  * create in 2022/1/6 5:18 PM
  *
@@ -28,7 +29,8 @@ public @interface AccessLimit {
     String value();
 
     /**
-     * 发生请求限制问题时,回调的函数,如果不写则抛出异常,需要玩家自己去捕获这个异常
+     * 发生请求限制问题时,回调的函数,
+     * 如果不写则抛出异常,需要玩家自己去捕获这个异常 {@link com.matrixboot.access.limit.config.AccessLimitException}
      *
      * @return String
      */

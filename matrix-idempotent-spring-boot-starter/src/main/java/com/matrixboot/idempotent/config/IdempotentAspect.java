@@ -1,5 +1,6 @@
-package com.matrixboot.idempotent.annotation;
+package com.matrixboot.idempotent.config;
 
+import com.matrixboot.idempotent.annotation.Idempotent;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

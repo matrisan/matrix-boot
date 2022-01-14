@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.matrixboot.idempotent.annotation.IdempotentConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.matrixboot.idempotent.config.IdempotentConfig

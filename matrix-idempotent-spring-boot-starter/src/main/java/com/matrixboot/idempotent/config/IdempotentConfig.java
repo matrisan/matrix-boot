@@ -1,4 +1,4 @@
-package com.matrixboot.idempotent.annotation;
+package com.matrixboot.idempotent.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;

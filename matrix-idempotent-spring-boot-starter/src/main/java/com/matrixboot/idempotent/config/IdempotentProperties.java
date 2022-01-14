@@ -1,4 +1,4 @@
-package com.matrixboot.idempotent.annotation;
+package com.matrixboot.idempotent.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,4 +1,4 @@
-package com.matrixboot.idempotent.annotation;
+package com.matrixboot.idempotent.config;
 
 import cn.hutool.core.util.IdUtil;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-import static com.matrixboot.idempotent.annotation.IdempotentCommon.BLANK_VALUE;
+import static com.matrixboot.idempotent.config.IdempotentCommon.BLANK_VALUE;
 
 /**
  * <p>
