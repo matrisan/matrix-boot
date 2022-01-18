@@ -20,9 +20,6 @@ public class SemaphoreProperties {
 
     private String prefix;
 
-
-
-
-
+    private Integer cycle;
 
 }

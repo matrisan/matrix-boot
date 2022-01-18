@@ -1,0 +1,46 @@
+= spring boot 父工程
+Doc Writer <spring-boot@qq.com>
+:icons: font
+:toc: right
+:pdf-themesdir: theme
+:pdf-fontsdir: font
+:pdf-theme: KaiGenGothicCN
+:homepage: https://github.com/miverse/matrix-boot
+:sourcedir: matrix-access-limit-spring-boot-starter/src/main/java/com/matrixboot/access/limit
+:assetsdir: assets
+:imagesdir: {assetsdir}/images
+:revnumber: 0.0.1-SNAPSHOT
+:revdate: 2022-01-11
+
+
+
+== 简介
+
+****
+
+matrix-access-limit-spring-boot-starter 主要用于请求频率的限制,未接入风控之前可以使用这个包解决一部分问题.
+
+****
+
+== 快速使用
+
+在 POM 中添加下列依赖
+
+[source,xml,subs="verbatim,attributes"]
+----
+<dependency>
+    <groupId>com.matrixboot</groupId>
+    <artifactId>matrix-access-limit-spring-boot-starter</artifactId>
+    <version>{revnumber}</version>
+</dependency>
+----
+
+
+
+== 编写代码
+
+
+
+
+
+

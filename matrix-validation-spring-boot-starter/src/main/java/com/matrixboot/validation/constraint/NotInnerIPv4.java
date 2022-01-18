@@ -1,7 +1,7 @@
 package com.matrixboot.validation.constraint;
 
 
-import com.matrixboot.validation.validator.NotInnerIPv4Validator;
+import com.matrixboot.validation.validator.NotInnerIpv4Validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NotInnerIPv4Validator.class)
+@Constraint(validatedBy = NotInnerIpv4Validator.class)
 public @interface NotInnerIPv4 {
 
     String message() default "";

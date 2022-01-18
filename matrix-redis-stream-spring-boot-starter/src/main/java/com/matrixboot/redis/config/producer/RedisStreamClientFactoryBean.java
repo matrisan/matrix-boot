@@ -38,7 +38,7 @@ public class RedisStreamClientFactoryBean implements FactoryBean<Object>, Initia
     }
 
     private @NotNull Map<Method, InvocationHandlerFactory.MethodHandler> getMethodHandler() {
-        Map<Method, InvocationHandlerFactory.MethodHandler> map = new HashMap<>();
+        Map<Method, InvocationHandlerFactory.MethodHandler> map = new HashMap<>(16);
         for (Method method : type.getMethods()) {
             if (method.isAnnotationPresent(RedisStreamEndpoint.class)) {
                 RedisStreamEndpoint annotation = method.getAnnotation(RedisStreamEndpoint.class);

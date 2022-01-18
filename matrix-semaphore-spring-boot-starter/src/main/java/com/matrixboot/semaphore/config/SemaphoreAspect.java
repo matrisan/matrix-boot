@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * <p>
  * create in 2021/12/23 3:50 PM
@@ -21,32 +23,45 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Order(2)
 @Component
-@AllArgsConstructor
 public class SemaphoreAspect {
 
     private final ISemaphore semaphore;
 
     private final SemaphoreProperties properties;
 
+    private SemaphoreMeta meta;
+
+    public SemaphoreAspect(ISemaphore semaphore, SemaphoreProperties properties) {
+        this.semaphore = semaphore;
+        this.properties = properties;
+    }
+
     /**
      * AOP 切面
      *
      * @param joinPoint ProceedingJoinPoint
-     * @param semaphore     Brake
+     * @param semaphore Brake
      * @return Object
      * @throws Throwable 异常信息
      */
     @Around("@annotation(semaphore)")
     public Object around(@NotNull ProceedingJoinPoint joinPoint, Semaphore semaphore) throws Throwable {
-        SemaphoreMeta meta = new SemaphoreMeta(semaphore, properties);
-        this.semaphore.tryAcquire(meta);
+        SemaphoreMeta semaphoreMeta = getSemaphoreMeta(semaphore);
+        boolean acquire = this.semaphore.tryAcquire(semaphoreMeta);
         Object proceed;
         try {
             proceed = joinPoint.proceed();
         } finally {
-            this.semaphore.release(meta.getKey());
+            this.semaphore.release(semaphoreMeta.getKey());
         }
         return proceed;
+    }
+
+    private SemaphoreMeta getSemaphoreMeta(Semaphore semaphore) {
+        if (Objects.isNull(meta)) {
+            meta = new SemaphoreMeta(semaphore, properties);
+        }
+        return meta;
     }
 
 }

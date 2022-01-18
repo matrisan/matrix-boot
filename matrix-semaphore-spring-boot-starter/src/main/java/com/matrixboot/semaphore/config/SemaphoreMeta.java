@@ -14,28 +14,28 @@ import java.util.concurrent.TimeUnit;
  */
 public class SemaphoreMeta {
 
-    private final Semaphore brake;
+    private final Semaphore semaphore;
 
     private final SemaphoreProperties properties;
 
-    public SemaphoreMeta(Semaphore brake, SemaphoreProperties properties) {
-        this.brake = brake;
+    public SemaphoreMeta(Semaphore semaphore, SemaphoreProperties properties) {
+        this.semaphore = semaphore;
         this.properties = properties;
     }
 
     public String getKey() {
         if (!StringUtils.hasText(properties.getPrefix())) {
-            return "com:matrixboot:brake:" + brake.value();
+            return "com:matrixboot:brake:" + semaphore.value();
         }
-        return properties.getPrefix() + ":" + brake.value();
+        return properties.getPrefix() + ":" + semaphore.value();
     }
 
     public long getTimeout(){
-        return brake.timeout();
+        return semaphore.timeout();
     }
 
     public TimeUnit getTimeUnit(){
-        return brake.unit();
+        return semaphore.unit();
     }
 
 }

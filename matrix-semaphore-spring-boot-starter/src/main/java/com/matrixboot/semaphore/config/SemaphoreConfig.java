@@ -15,18 +15,18 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class SemaphoreConfig {
 
     @Bean
-    public SemaphoreProperties brakeProperties(){
+    public SemaphoreProperties semaphoreProperties() {
         return new SemaphoreProperties();
     }
 
     @Bean
-    public SemaphoreAspect doorkeeperAspect(ISemaphore iSemaphore, SemaphoreProperties properties) {
+    public SemaphoreAspect semaphoreAspect(ISemaphore iSemaphore, SemaphoreProperties properties) {
         return new SemaphoreAspect(iSemaphore, properties);
     }
 
     @Bean
-    public ISemaphore iSemaphore(StringRedisTemplate stringRedisTemplate) {
-        return new SemaphoreRedisImpl(stringRedisTemplate);
+    public ISemaphore iSemaphore(SemaphoreProperties properties, StringRedisTemplate stringRedisTemplate) {
+        return new SemaphoreRedisImpl(properties, stringRedisTemplate);
     }
 
 }

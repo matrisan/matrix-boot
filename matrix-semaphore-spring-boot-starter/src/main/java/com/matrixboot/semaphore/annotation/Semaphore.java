@@ -1,5 +1,7 @@
 package com.matrixboot.semaphore.annotation;
 
+import org.springframework.retry.annotation.Retryable;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@Retryable
 public @interface Semaphore {
 
     /**

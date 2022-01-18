@@ -3,7 +3,7 @@ package com.matrixboot.excel;
 import org.springframework.context.annotation.Bean;
 
 /**
- * TODO
+ * excel 配置 bean 的类
  * <p>
  * create in 2021/12/15 8:35 PM
  *
@@ -13,17 +13,17 @@ import org.springframework.context.annotation.Bean;
 public class ExcelConfig {
 
     @Bean
-    public SpringWebMvcConfigurer springWebMvcConfigurer(){
+    public SpringWebMvcConfigurer springWebMvcConfigurer() {
         return new SpringWebMvcConfigurer();
     }
 
     @Bean
-    public ExcelRequestBodyHandlerMethodArgumentResolver excelRequestBodyHandlerMethodArgumentResolver(){
+    public ExcelRequestBodyHandlerMethodArgumentResolver excelRequestBodyHandlerMethodArgumentResolver() {
         return new ExcelRequestBodyHandlerMethodArgumentResolver();
     }
 
     @Bean
-    public ExcelResponseBodyHandlerMethodReturnValueHandler excelResponseBodyHandlerMethodReturnValueHandler(){
+    public ExcelResponseBodyHandlerMethodReturnValueHandler excelResponseBodyHandlerMethodReturnValueHandler() {
         return new ExcelResponseBodyHandlerMethodReturnValueHandler();
     }
 

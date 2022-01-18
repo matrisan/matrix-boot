@@ -52,4 +52,11 @@ public @interface AccessLimit {
      */
     int timeout() default 60;
 
+    /**
+     * 支持自定义
+     *
+     * @return String
+     */
+    String message() default "请求速率超过限制!";
+
 }

@@ -59,12 +59,6 @@ public class AccessLimitConfig {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    AccessLimitRedisServiceImpl accessLimitRedisService() {
-        return new AccessLimitRedisServiceImpl();
-    }
-
-    @Bean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     AccessLimitProperties accessLimitProperties() {
         return new AccessLimitProperties();
     }

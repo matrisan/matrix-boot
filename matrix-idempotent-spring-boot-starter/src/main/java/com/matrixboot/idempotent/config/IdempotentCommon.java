@@ -1,5 +1,6 @@
 package com.matrixboot.idempotent.config;
 
+import cn.hutool.core.net.NetUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,10 @@ public final class IdempotentCommon {
 
     public static @NotNull String getRedisKey(@NotNull IdempotentProperties properties, String token) {
         return properties.getRedisKeyPrefix() + token;
+    }
+
+    public static String getLocalhost(){
+        return NetUtil.getLocalhost().getHostAddress();
     }
 
 }

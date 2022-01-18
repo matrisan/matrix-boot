@@ -1,5 +1,13 @@
 package com.matrixboot.access.limit.config;
 
+import com.matrixboot.access.limit.dto.AccessLimitResult;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
+import org.springframework.expression.BeanResolver;
+import org.springframework.expression.ExpressionParser;
+
 import java.lang.reflect.Method;
 
 /**
@@ -9,17 +17,28 @@ import java.lang.reflect.Method;
  * @author shishaodong
  * @version 0.0.1
  */
-@FunctionalInterface
-public interface IAccessLimitService {
+public interface IAccessLimitService extends InitializingBean {
 
+    void setExpressionParser(ExpressionParser expressionParser);
+
+    void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer);
+
+    void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate);
+
+    void setBeanResolver(BeanResolver beanResolver);
+
+    void setRedisScript(RedisScript<Boolean> redisScript);
 
     /**
      * 真正执行 check 的方法
      *
      * @param method 待执行的方法
      * @param args   方法的参数
-     * @param meta   注解元数据
+     * @return AccessLimitResult
      */
-    void doCheck(Method method, Object[] args, AccessLimitMeta meta);
+    AccessLimitResult doCheck(Method method, Object[] args);
 
+    String getReveal();
+
+    void setAccessLimitProperties(AccessLimitProperties properties);
 }

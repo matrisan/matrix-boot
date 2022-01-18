@@ -1,8 +1,12 @@
 package com.matrixboot.access.limit.config;
 
-import com.matrixboot.access.limit.exception.AccessLimitException;
+import com.matrixboot.access.limit.annotation.AccessLimit;
+import com.matrixboot.access.limit.annotation.AccessLimits;
+import com.matrixboot.access.limit.dto.AccessLimitMeta;
+import com.matrixboot.access.limit.dto.AccessLimitResult;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
@@ -10,59 +14,121 @@ import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>
- * create in 2022/1/14 4:59 PM
+ * create in 2022/1/18 4:35 PM
  *
  * @author shishaodong
  * @version 0.0.1
  */
 @Slf4j
-public class AccessLimitRedisServiceImpl implements IAccessLimitService, InitializingBean {
+public class AccessLimitRedisServiceImpl implements IAccessLimitService {
 
-    @Resource
+    @Setter
     private ExpressionParser expressionParser;
 
-    @Resource
+    @Setter
     private ParameterNameDiscoverer parameterNameDiscoverer;
 
-    @Resource
+    @Setter
     private StringRedisTemplate stringRedisTemplate;
 
-    @Resource
+    @Setter
     private BeanResolver beanResolver;
 
-    @Resource
+    @Setter
     private RedisScript<Boolean> redisScript;
 
-    private StandardEvaluationContext evaluationContext;
+    @Setter
+    private AccessLimitProperties accessLimitProperties;
+
+    private final StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
+
+    private String[] parameterNames;
+
+    private AccessLimitMeta accessLimitMeta;
+
+    private List<AccessLimitMeta> accessLimitMetas;
+
+    private AccessLimit accessLimit;
+
+    private AccessLimits accessLimits;
+
+    public AccessLimitRedisServiceImpl(AccessLimit accessLimit) {
+        this.accessLimitMeta = new AccessLimitMeta(accessLimit);
+        this.accessLimit = accessLimit;
+    }
+
+    public AccessLimitRedisServiceImpl(@NotNull AccessLimits accessLimits) {
+        this.accessLimitMetas = Arrays.stream(accessLimits.value()).map(AccessLimitMeta::new).collect(Collectors.toList());
+        this.accessLimits = accessLimits;
+    }
 
     @Override
-    public void doCheck(Method method, Object[] args, AccessLimitMeta meta) {
-        String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
+    public AccessLimitResult doCheck(Method method, Object[] args) {
+        String[] paramNames = getParameterNames(method);
+        setArgs(args, paramNames);
+        if (!Objects.isNull(accessLimitMetas) && !accessLimitMetas.isEmpty()) {
+            List<AccessLimitResult> list = accessLimitMetas.stream().map(this::mapValues).collect(Collectors.toList());
+            for (AccessLimitResult result : list) {
+                if (Boolean.TRUE.equals(result.getResult())) {
+                    return result;
+                }
+            }
+        }
+        if (!Objects.isNull(accessLimitMeta)) {
+            AccessLimitResult equals = mapValues(accessLimitMeta);
+            return Boolean.TRUE.equals(equals.getResult()) ? equals : DEFAULT;
+        }
+        return DEFAULT;
+    }
+
+    private static final AccessLimitResult DEFAULT = new AccessLimitResult(false, null);
+
+    private AccessLimitResult mapValues(@NotNull AccessLimitMeta meta) {
+        String spEl = meta.getValue();
+        String value = (String) expressionParser.parseExpression(spEl).getValue(evaluationContext);
+        assert value != null;
+        Boolean aBoolean = stringRedisTemplate.execute(redisScript, Collections.singletonList(accessLimitProperties.getPrefix() + value), meta.getTimeout(), meta.getTimes());
+        if (Boolean.TRUE.equals(aBoolean)) {
+            return new AccessLimitResult(true, meta.getMessage());
+        }
+        log.info("value: {} - {}", value, aBoolean);
+        return DEFAULT;
+    }
+
+
+    private void setArgs(Object[] args, String[] parameterNames) {
         for (int i = 0; i < Objects.requireNonNull(parameterNames).length; i++) {
             String paramName = parameterNames[i];
             // 参数名称和参数对象设置到表达式上下文对象里,这样才能通过 #reqVo 这样的写法来引用方法参数
             evaluationContext.setVariable(paramName, args[i]);
         }
-        String spEl = meta.getValue();
-        Object value = expressionParser.parseExpression(spEl).getValue(evaluationContext);
-        assert value != null;
-        Boolean aBoolean = stringRedisTemplate.execute(redisScript, Collections.singletonList(value.toString()), meta.getTimeout(), meta.getTimes());
-        log.info("value: {} - {}", value, aBoolean);
-        if (Boolean.TRUE.equals(aBoolean)) {
-            throw new AccessLimitException("限流问题");
+    }
+
+    private String[] getParameterNames(Method method) {
+        if (Objects.isNull(parameterNames)) {
+            parameterNames = parameterNameDiscoverer.getParameterNames(method);
         }
+        return parameterNames;
     }
 
     @Override
+    public String getReveal() {
+        return Objects.isNull(accessLimits) ? accessLimit.reveal() : accessLimits.reveal();
+    }
+
+
+    @Override
     public void afterPropertiesSet() {
-        evaluationContext = new StandardEvaluationContext();
         evaluationContext.setBeanResolver(beanResolver);
     }
+
 }

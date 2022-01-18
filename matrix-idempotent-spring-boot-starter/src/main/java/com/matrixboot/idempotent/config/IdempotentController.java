@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-import static com.matrixboot.idempotent.config.IdempotentCommon.BLANK_VALUE;
+import static com.matrixboot.idempotent.config.IdempotentCommon.getLocalhost;
 
 /**
  * <p>
@@ -31,11 +31,12 @@ public class IdempotentController {
     @GetMapping("/token")
     public String token() {
         String id = IdUtil.objectId();
-        stringRedisTemplate.opsForValue().setIfAbsent(getRedisKey(id), BLANK_VALUE, properties.getTimeout(), properties.getUnit());
+        stringRedisTemplate.opsForValue().set(getRedisKey(id), getLocalhost(), properties.getTimeout(), properties.getUnit());
         return id;
     }
 
     private @NotNull String getRedisKey(String id) {
         return properties.getRedisKeyPrefix() + id;
     }
+
 }

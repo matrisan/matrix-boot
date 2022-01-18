@@ -1,7 +1,6 @@
 package com.matrixboot.semaphore.config;
 
 /**
- * TODO
  * <p>
  * create in 2021/12/29 2:31 PM
  *
@@ -10,11 +9,27 @@ package com.matrixboot.semaphore.config;
  */
 public interface ISemaphore {
 
-    @Deprecated
-    void acquire(String key);
 
+    /**
+     * 获取
+     *
+     * @param meta SemaphoreMeta
+     */
+    void acquire(SemaphoreMeta meta);
+
+    /**
+     * 获取
+     *
+     * @param meta SemaphoreMeta
+     * @return boolean
+     */
     boolean tryAcquire(SemaphoreMeta meta);
 
+    /**
+     * 释放锁
+     *
+     * @param key key
+     */
     void release(String key);
 
 }
