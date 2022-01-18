@@ -3,6 +3,7 @@ package com.matrixboot.access.limit.config;
 import com.matrixboot.access.limit.dto.AccessLimitResult;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.expression.BeanResolver;
@@ -28,6 +29,8 @@ public interface IAccessLimitService extends InitializingBean {
     void setBeanResolver(BeanResolver beanResolver);
 
     void setRedisScript(RedisScript<Boolean> redisScript);
+
+    void setEnvironment(Environment environment);
 
     /**
      * 真正执行 check 的方法

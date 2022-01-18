@@ -8,11 +8,13 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.ParameterNameDiscoverer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -47,6 +49,9 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
     private RedisScript<Boolean> redisScript;
 
     @Setter
+    private Environment environment;
+
+    @Setter
     private AccessLimitProperties accessLimitProperties;
 
     private final StandardEvaluationContext evaluationContext = new StandardEvaluationContext();
@@ -60,6 +65,8 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
     private AccessLimit accessLimit;
 
     private AccessLimits accessLimits;
+
+    private String methodName;
 
     public AccessLimitRedisServiceImpl(AccessLimit accessLimit) {
         this.accessLimitMeta = new AccessLimitMeta(accessLimit);
@@ -96,7 +103,7 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
         String spEl = meta.getValue();
         String value = (String) expressionParser.parseExpression(spEl).getValue(evaluationContext);
         assert value != null;
-        Boolean aBoolean = stringRedisTemplate.execute(redisScript, Collections.singletonList(accessLimitProperties.getPrefix() + value), meta.getTimeout(), meta.getTimes());
+        Boolean aBoolean = stringRedisTemplate.execute(redisScript, Collections.singletonList(getPrefix() + value), meta.getTimeout(), meta.getTimes());
         if (Boolean.TRUE.equals(aBoolean)) {
             return new AccessLimitResult(true, meta.getMessage());
         }
@@ -117,8 +124,29 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
         if (Objects.isNull(parameterNames)) {
             parameterNames = parameterNameDiscoverer.getParameterNames(method);
         }
+        methodName = method.getName();
         return parameterNames;
     }
+
+    private String fullPrefix;
+
+    private String getPrefix() {
+        if (StringUtils.hasText(fullPrefix)) {
+            return fullPrefix;
+        }
+
+        String prefix = accessLimitProperties.getPrefix();
+        String property = environment.getProperty("spring.application.name");
+        if (StringUtils.hasText(property)) {
+            prefix += property;
+        } else {
+            prefix += "nameless";
+        }
+        prefix = prefix + ":" + methodName + ":";
+        fullPrefix = prefix;
+        return fullPrefix;
+    }
+
 
     @Override
     public String getReveal() {

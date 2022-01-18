@@ -16,6 +16,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "com.matrixboot.access.limit")
 public class AccessLimitProperties {
 
-    private String prefix = "com:matrixboot:access:limit";
+    private String prefix = "com:matrixboot:access:limit:";
 
 }

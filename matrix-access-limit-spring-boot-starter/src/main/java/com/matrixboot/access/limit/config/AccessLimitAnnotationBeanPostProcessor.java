@@ -12,6 +12,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.expression.BeanResolver;
@@ -39,6 +40,7 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         if (anno.isEmpty()) {
             return bean;
         }
+
         return new ProxyFactory(bean, anno).getProxyInstance();
     }
 
@@ -102,6 +104,7 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         service.setBeanResolver(beanFactory.getBean(BeanResolver.class));
         service.setRedisScript((RedisScript<Boolean>) beanFactory.getBean("redisScript"));
         service.setAccessLimitProperties(beanFactory.getBean(AccessLimitProperties.class));
+        service.setEnvironment(beanFactory.getBean(Environment.class));
         service.afterPropertiesSet();
     }
 
