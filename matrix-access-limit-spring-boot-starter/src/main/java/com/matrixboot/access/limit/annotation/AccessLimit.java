@@ -57,6 +57,6 @@ public @interface AccessLimit {
      *
      * @return String
      */
-    String message() default "请求速率超过限制!";
+    String message() default "请求次数超过限制!";
 
 }

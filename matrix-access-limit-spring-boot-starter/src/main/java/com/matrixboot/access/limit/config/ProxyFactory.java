@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -23,6 +24,7 @@ import java.util.Map;
 public class ProxyFactory implements MethodInterceptor {
 
     private final Object target;
+
     private final Map<Method, IAccessLimitService> anno;
 
     public ProxyFactory(Object target, Map<Method, IAccessLimitService> anno) {
@@ -60,21 +62,20 @@ public class ProxyFactory implements MethodInterceptor {
             Class<?>[] argsTypes = getMethod(accessLimitMeta.getReveal());
             Map<Class<?>, Object> map = argsToMap(args);
             map.put(AccessLimitException.class, new AccessLimitException(accessLimitResult.getMessage()));
-            return Reflect.on(target).call(accessLimitMeta.getReveal(), init(argsTypes, map)).get();
+            return Reflect.on(target).call(accessLimitMeta.getReveal(), assembleArgs(argsTypes, map)).get();
         } else {
             // 没有定义回调方法直接抛出异常
             throw new AccessLimitException(accessLimitResult.getMessage());
         }
     }
 
-    private Object @NotNull [] init(Class<?> @NotNull [] parameterTypes, Map<Class<?>, Object> map) {
+    private Object @NotNull [] assembleArgs(Class<?> @NotNull [] parameterTypes, Map<Class<?>, Object> map) {
         Object[] args = new Object[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; i++) {
             args[i] = map.get(parameterTypes[i]);
         }
         return args;
     }
-
 
     private @NotNull Map<Class<?>, Object> argsToMap(Object @NotNull [] args) {
         Map<Class<?>, Object> map = new HashMap<>(args.length + 3);
@@ -84,15 +85,23 @@ public class ProxyFactory implements MethodInterceptor {
         return map;
     }
 
+    private Class<?>[] revealParams;
 
+    /**
+     * 方法参数的类型比较固定,第一次运行时候缓存下来
+     *
+     * @param methodName 方法名称
+     * @return Class []
+     */
     private Class<?> @NotNull [] getMethod(String methodName) {
-        Method[] methods = target.getClass().getMethods();
-        for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                return method.getParameterTypes();
+        if (Objects.isNull(revealParams)) {
+            Method[] methods = target.getClass().getMethods();
+            for (Method method : methods) {
+                if (method.getName().equals(methodName)) {
+                    revealParams = method.getParameterTypes();
+                }
             }
         }
-        return new Class[0];
+        return revealParams;
     }
-
 }

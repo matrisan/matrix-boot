@@ -30,15 +30,15 @@ public class AccessLimitFacade {
     }
 
     @AccessLimits({
-            @AccessLimit(value = "#queryData.username", times = 2, message = "用户名请求速率超过了限制!"),
-            @AccessLimit(value = "#queryData.group", times = 4, message = "用户组请求速率超过了限制!")
+            @AccessLimit(value = "#queryData.username", times = 2, message = "用户名请求次数超过了限制!"),
+            @AccessLimit(value = "#queryData.group", times = 4, message = "用户组请求次数超过了限制!")
     })
     @GetMapping("example3")
     public QueryData example3(QueryData queryData) {
         return queryData;
     }
 
-    @AccessLimit(value = "#queryData.username", message = "用户名请求速率超过了限制!", times = 4, timeout = 30, reveal = "reveal")
+    @AccessLimit(value = "#queryData.username", message = "用户名请求次数超过了限制!", times = 4, timeout = 30, reveal = "reveal")
     @GetMapping("example4")
     public QueryData example4(QueryData queryData) {
         return queryData;
@@ -48,6 +48,4 @@ public class AccessLimitFacade {
     public QueryData reveal(QueryData queryData, AccessLimitException exception) {
         return new QueryData();
     }
-
-
 }
