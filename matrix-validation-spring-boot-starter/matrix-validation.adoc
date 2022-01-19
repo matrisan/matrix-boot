@@ -1,0 +1,52 @@
+= matrix-access-limit-spring-boot-starter
+Doc Writer <spring-boot@qq.com>
+:icons: font
+:toc: right
+:pdf-themesdir: theme
+:pdf-fontsdir: font
+:pdf-theme: KaiGenGothicCN
+:homepage: https://github.com/miverse/matrix-boot
+:sourcedir: matrix-access-limit-spring-boot-starter/src/main/java/com/matrixboot/access/limit
+:assetsdir: assets
+:imagesdir: {assetsdir}/images
+:revnumber: 0.0.1-SNAPSHOT
+:revdate: 2022-01-11
+
+== 简介
+
+扩展一些校验注解
+
+|===
+^|注解 ^|描述 ^|标记类型
+
+|IdCard
+|标记的字段为身份证号码
+|String
+
+|IPv4
+|标记的字段为 ipv4 不区分内网还是外网
+|String
+
+|InnerIPv4
+|标记的字段为 ipv4 内网
+|String
+
+|NotInnerIPv4
+|标记的字段为 ipv4 外网
+|String
+
+|IPv6
+|标记的字段为 ipv6 外网
+|String
+
+|Mac
+|标记的字段为 mac 地址
+|String
+
+|MobilePhone
+|标记的字段为手机号码
+|String
+|===
+
+
+
