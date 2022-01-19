@@ -27,7 +27,6 @@ import org.springframework.scripting.support.StaticScriptSource;
 @EnableAspectJAutoProxy
 public class AccessLimitConfig {
 
-
     /**
      * Redis 脚本,主要的一些判断逻辑均在 redis 中判断
      *
@@ -51,18 +50,34 @@ public class AccessLimitConfig {
         return script;
     }
 
+    /**
+     * 这个必须要有,暂时不允许修改
+     *
+     * @return AccessLimitAnnotationBeanPostProcessor
+     */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public AccessLimitAnnotationBeanPostProcessor accessLimitAnnotationBeanPostProcessor() {
         return new AccessLimitAnnotationBeanPostProcessor();
     }
 
+    /**
+     * AccessLimit 的一些基本配置
+     *
+     * @return AccessLimitProperties
+     */
     @Bean
+    @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     AccessLimitProperties accessLimitProperties() {
         return new AccessLimitProperties();
     }
 
+    /**
+     * spel 表达式解析器
+     *
+     * @return ExpressionParser
+     */
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -70,6 +85,11 @@ public class AccessLimitConfig {
         return new SpelExpressionParser();
     }
 
+    /**
+     * 方法参数名称解析
+     *
+     * @return ParameterNameDiscoverer
+     */
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -77,12 +97,17 @@ public class AccessLimitConfig {
         return new DefaultParameterNameDiscoverer();
     }
 
+    /**
+     * bean 的解析器
+     *
+     * @param beanFactory spring 底层容器
+     * @return BeanResolver
+     */
     @Bean
     @ConditionalOnMissingBean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     BeanResolver beanResolver(BeanFactory beanFactory) {
         return new BeanFactoryResolver(beanFactory);
     }
-
 
 }

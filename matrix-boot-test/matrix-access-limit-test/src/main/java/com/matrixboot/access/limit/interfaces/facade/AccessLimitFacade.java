@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccessLimitFacade {
 
+    @GetMapping("example0")
+    public QueryData example0(QueryData queryData) {
+        return queryData;
+    }
+
     @AccessLimit("#queryData.username")
     @GetMapping("example1")
     public QueryData example1(QueryData queryData) {

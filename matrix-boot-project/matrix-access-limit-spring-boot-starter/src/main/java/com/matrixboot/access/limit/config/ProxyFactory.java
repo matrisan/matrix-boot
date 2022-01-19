@@ -51,6 +51,10 @@ public class ProxyFactory implements MethodInterceptor {
     @Override
     public Object intercept(Object o, @NotNull Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
         IAccessLimitService accessLimitMeta = anno.get(method);
+        if (Objects.isNull(accessLimitMeta)) {
+            // 没有标注注解, 不需要拦截直接返回
+            return method.invoke(target, args);
+        }
         // 执行真正的方法之前,先执行自定的方法
         AccessLimitResult accessLimitResult = accessLimitMeta.doCheck(method, args);
         if (Boolean.FALSE.equals(accessLimitResult.getResult())) {
@@ -60,6 +64,7 @@ public class ProxyFactory implements MethodInterceptor {
         // 看看是否自定义了方法,如果有就调用,方法参数和真正的方法参数是一样的
         if (StringUtils.hasText(accessLimitMeta.getReveal())) {
             Class<?>[] argsTypes = getMethod(accessLimitMeta.getReveal());
+            // 这个地方处理的有点不好.
             Map<Class<?>, Object> map = argsToMap(args);
             map.put(AccessLimitException.class, new AccessLimitException(accessLimitResult.getMessage()));
             return Reflect.on(target).call(accessLimitMeta.getReveal(), assembleArgs(argsTypes, map)).get();

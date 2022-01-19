@@ -40,19 +40,12 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         if (anno.isEmpty()) {
             return bean;
         }
-
         return new ProxyFactory(bean, anno).getProxyInstance();
     }
 
     @Override
     public void setBeanFactory(@NotNull BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
-    }
-
-
-    @Override
-    public int getOrder() {
-        return 0;
     }
 
     private @NotNull Map<Method, IAccessLimitService> findAnnotations(@NotNull Class<?> clz) {
@@ -66,6 +59,12 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         return container;
     }
 
+    /**
+     * 查找单个 AccessLimit 注解
+     *
+     * @param method    待增强的方法
+     * @param container 注解元数据的缓存
+     */
     private void findSingle(Method method, Map<Method, IAccessLimitService> container) {
         AccessLimit accessLimit = AnnotationUtils.findAnnotation(method, AccessLimit.class);
         if (!Objects.isNull(accessLimit)) {
@@ -73,6 +72,13 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         }
     }
 
+    /**
+     * 是都找到 {@link AccessLimits} 注解,找到的话 就不检查 AccessLimit
+     *
+     * @param method    待增强的方法
+     * @param container 注解元数据的缓存
+     * @return boolean
+     */
     private boolean findMany(Method method, Map<Method, IAccessLimitService> container) {
         AccessLimits accessLimits = AnnotationUtils.findAnnotation(method, AccessLimits.class);
         if (Objects.isNull(accessLimits)) {
@@ -112,4 +118,10 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
     public void afterSingletonsInstantiated() {
 
     }
+
+    @Override
+    public int getOrder() {
+        return 0;
+    }
+
 }

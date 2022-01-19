@@ -20,16 +20,46 @@ import java.lang.reflect.Method;
  */
 public interface IAccessLimitService extends InitializingBean {
 
+    /**
+     * SPEL 表达式解析
+     *
+     * @param expressionParser expressionParser
+     */
     void setExpressionParser(ExpressionParser expressionParser);
 
+    /**
+     * 参数名称解析
+     *
+     * @param parameterNameDiscoverer parameterNameDiscoverer
+     */
     void setParameterNameDiscoverer(ParameterNameDiscoverer parameterNameDiscoverer);
 
+    /**
+     * redis stringRedisTemplate
+     *
+     * @param stringRedisTemplate stringRedisTemplate
+     */
     void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate);
 
+    /**
+     * spring 容器 bean 解析器
+     *
+     * @param beanResolver beanResolver
+     */
     void setBeanResolver(BeanResolver beanResolver);
 
+    /**
+     * 设置 lua 脚本
+     *
+     * @param redisScript redisScript
+     */
     void setRedisScript(RedisScript<Boolean> redisScript);
 
+    /**
+     * 设置环境变量
+     *
+     * @param environment 环境变量
+     */
     void setEnvironment(Environment environment);
 
     /**
@@ -41,7 +71,17 @@ public interface IAccessLimitService extends InitializingBean {
      */
     AccessLimitResult doCheck(Method method, Object[] args);
 
+    /**
+     * 回调函数名称
+     *
+     * @return String
+     */
     String getReveal();
 
+    /**
+     * 设置参数
+     *
+     * @param properties properties
+     */
     void setAccessLimitProperties(AccessLimitProperties properties);
 }

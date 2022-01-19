@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -26,7 +27,7 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class AccessLimitMeta {
+public final class AccessLimitMeta {
 
     String value;
 
@@ -58,11 +59,13 @@ public class AccessLimitMeta {
         this.message = accessLimit.message();
     }
 
-    public String getTimes() {
+    @Contract(pure = true)
+    public @NotNull String getTimes() {
         return times + "";
     }
 
-    public String getTimeout() {
+    @Contract(pure = true)
+    public @NotNull String getTimeout() {
         return timeout + "";
     }
 

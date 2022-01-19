@@ -16,6 +16,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "com.matrixboot.access.limit")
 public class AccessLimitProperties {
 
+    /**
+     * 默认的存储的前缀
+     */
     private String prefix = "com:matrixboot:access:limit:";
 
 }

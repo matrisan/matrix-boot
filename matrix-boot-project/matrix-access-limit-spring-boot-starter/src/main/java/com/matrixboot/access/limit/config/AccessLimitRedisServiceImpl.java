@@ -147,12 +147,10 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
         return fullPrefix;
     }
 
-
     @Override
     public String getReveal() {
         return Objects.isNull(accessLimits) ? accessLimit.reveal() : accessLimits.reveal();
     }
-
 
     @Override
     public void afterPropertiesSet() {
