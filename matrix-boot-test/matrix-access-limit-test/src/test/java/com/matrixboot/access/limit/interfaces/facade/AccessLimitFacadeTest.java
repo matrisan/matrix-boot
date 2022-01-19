@@ -66,19 +66,49 @@ class AccessLimitFacadeTest {
     }
 
 
-    @Test
-    void example2() {
+    @Nested
+    @DisplayName("测试接口 example2, 测试未触发请求控制和触发请求控制")
+    class Example2Test {
+
+        @Test
+        @DisplayName("测试接口 example2 ,测试未触发请求控制")
+        void example11() {
+            String username = RandomStringUtils.randomAlphanumeric(10);
+            String group = RandomStringUtils.randomAlphanumeric(10);
+            for (int i = 0; i < 3; i++) {
+                QueryData response = restTemplate.getForObject("/example2?username=" + username + "&group=" + group, QueryData.class);
+                Assertions.assertEquals(response.getUsername(), username);
+            }
+        }
+
+        @Test
+        @DisplayName("测试接口 example2, 测试触发请求控制")
+        void example12() {
+            String username = RandomStringUtils.randomAlphanumeric(10);
+            String group = RandomStringUtils.randomAlphanumeric(10);
+            ResponseEntity<QueryData> response = null;
+            for (int i = 0; i < 4; i++) {
+                response = restTemplate.getForEntity("/example2?username=" + username + "&group=" + group, QueryData.class);
+            }
+            Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        }
     }
+
 
     @Test
     void example3() {
     }
 
     @Test
+    @DisplayName("测试接口 example4, 前 3 次数据原路返回, 第 4 次返回的 username 为 null")
     void example4() {
+        String username = RandomStringUtils.randomAlphanumeric(5);
+        for (int i = 0; i < 3; i++) {
+            QueryData response = restTemplate.getForObject("/example1?username=" + username, QueryData.class);
+            Assertions.assertEquals(response.getUsername(), username);
+        }
+        QueryData response = restTemplate.getForObject("/example1?username=" + username, QueryData.class);
+        Assertions.assertNull(response.getUsername());
     }
 
-    @Test
-    void reveal() {
-    }
 }
