@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>matrix-boot</artifactId>
+        <groupId>com.matrixboot</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>matrix-boot-bom</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <matrix-access-limit.version>0.0.1-SNAPSHOT</matrix-access-limit.version>
+        <matrix-validation.version>0.0.1-SNAPSHOT</matrix-validation.version>
+        <matrix-excel.version>0.0.1-SNAPSHOT</matrix-excel.version>
+        <matrix-idempotent.version>0.0.1-SNAPSHOT</matrix-idempotent.version>
+        <matrix-redis-stream.version>0.0.1-SNAPSHOT</matrix-redis-stream.version>
+        <matrix-semaphore.version>0.0.1-SNAPSHOT</matrix-semaphore.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-access-limit-spring-boot-starter</artifactId>
+                <version>${matrix-access-limit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-validation-spring-boot-starter</artifactId>
+                <version>${matrix-validation-limit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-excel-spring-boot-starter</artifactId>
+                <version>${matrix-excel-limit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-idempotent-spring-boot-starter</artifactId>
+                <version>${matrix-idempotent-limit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-redis-stream-spring-boot-starter</artifactId>
+                <version>${matrix-redis-stream-limit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-semaphore-spring-boot-starter</artifactId>
+                <version>${matrix-semaphore-limit.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>
