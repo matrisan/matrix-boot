@@ -31,7 +31,7 @@ public final class AccessLimitMeta {
 
     String value;
 
-    String reveal;
+    String recover;
 
     Integer times;
 
@@ -43,7 +43,7 @@ public final class AccessLimitMeta {
 
     public AccessLimitMeta(@NotNull AccessLimit accessLimit) {
         this.value = accessLimit.value();
-        this.reveal = accessLimit.reveal();
+        this.recover = accessLimit.recover();
         this.times = accessLimit.times();
         this.timeout = accessLimit.timeout();
         this.message = accessLimit.message();
@@ -52,7 +52,7 @@ public final class AccessLimitMeta {
 
     public AccessLimitMeta(@NotNull AccessLimit accessLimit, @NotNull Method method) {
         this.value = accessLimit.value();
-        this.reveal = accessLimit.reveal();
+        this.recover = accessLimit.recover();
         this.times = accessLimit.times();
         this.timeout = accessLimit.timeout();
         this.methodName = method.getName();

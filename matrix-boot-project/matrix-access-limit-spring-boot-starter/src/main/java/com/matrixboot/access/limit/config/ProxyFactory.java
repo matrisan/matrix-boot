@@ -90,7 +90,7 @@ public class ProxyFactory implements MethodInterceptor {
         return map;
     }
 
-    private Class<?>[] revealParams;
+    private Class<?>[] recoverParams;
 
     /**
      * 方法参数的类型比较固定,第一次运行时候缓存下来
@@ -99,14 +99,14 @@ public class ProxyFactory implements MethodInterceptor {
      * @return Class []
      */
     private Class<?> @NotNull [] getMethod(String methodName) {
-        if (Objects.isNull(revealParams)) {
+        if (Objects.isNull(recoverParams)) {
             Method[] methods = target.getClass().getMethods();
             for (Method method : methods) {
                 if (method.getName().equals(methodName)) {
-                    revealParams = method.getParameterTypes();
+                    recoverParams = method.getParameterTypes();
                 }
             }
         }
-        return revealParams;
+        return recoverParams;
     }
 }

@@ -20,6 +20,8 @@ public class IdempotentProperties {
 
     private String redisKeyPrefix = "com:matrixboot:idempotent:";
 
+    private Integer retry = 100;
+
     private Long timeout = 1L;
 
     private TimeUnit unit = TimeUnit.DAYS;

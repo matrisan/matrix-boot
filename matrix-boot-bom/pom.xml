@@ -37,27 +37,27 @@
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-validation-spring-boot-starter</artifactId>
-                <version>${matrix-validation-limit.version}</version>
+                <version>${matrix-validation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-excel-spring-boot-starter</artifactId>
-                <version>${matrix-excel-limit.version}</version>
+                <version>${matrix-excel.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-idempotent-spring-boot-starter</artifactId>
-                <version>${matrix-idempotent-limit.version}</version>
+                <version>${matrix-idempotent.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-redis-stream-spring-boot-starter</artifactId>
-                <version>${matrix-redis-stream-limit.version}</version>
+                <version>${matrix-redis-stream.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-semaphore-spring-boot-starter</artifactId>
-                <version>${matrix-semaphore-limit.version}</version>
+                <version>${matrix-semaphore.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

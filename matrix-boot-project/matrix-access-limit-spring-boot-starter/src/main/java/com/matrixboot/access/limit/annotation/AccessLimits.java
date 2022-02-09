@@ -30,5 +30,5 @@ public @interface AccessLimits {
      *
      * @return String
      */
-    String reveal() default "";
+    String recover() default "";
 }

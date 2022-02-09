@@ -36,7 +36,7 @@ public @interface AccessLimit {
      *
      * @return String
      */
-    String reveal() default "";
+    String recover() default "";
 
     /**
      * 请求的次数限制, 默认是 1 分钟三次

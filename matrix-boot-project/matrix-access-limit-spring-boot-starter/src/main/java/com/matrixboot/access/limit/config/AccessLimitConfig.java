@@ -34,7 +34,7 @@ public class AccessLimitConfig {
      */
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    RedisScript<Boolean> redisScript() {
+    RedisScript<Boolean> redisScriptAccessLimit() {
         DefaultRedisScript<Boolean> script = new DefaultRedisScript<>();
         String scriptStr = "local threshold = tonumber(ARGV[2]);\n" +
                 "local exe = redis.call(\"SETNX\", KEYS[1], 1);\n" +

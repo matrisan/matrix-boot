@@ -149,7 +149,7 @@ public class AccessLimitRedisServiceImpl implements IAccessLimitService {
 
     @Override
     public String getReveal() {
-        return Objects.isNull(accessLimits) ? accessLimit.reveal() : accessLimits.reveal();
+        return Objects.isNull(accessLimits) ? accessLimit.recover() : accessLimits.recover();
     }
 
     @Override

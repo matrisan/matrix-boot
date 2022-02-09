@@ -1,15 +1,12 @@
 package com.matrixboot.idempotent.config;
 
-import cn.hutool.core.util.IdUtil;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import com.matrixboot.idempotent.core.AbstractIdempotentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-
-import static com.matrixboot.idempotent.config.IdempotentCommon.getLocalhost;
 
 /**
  * <p>
@@ -18,25 +15,23 @@ import static com.matrixboot.idempotent.config.IdempotentCommon.getLocalhost;
  * @author shishaodong
  * @version 0.0.1
  */
+@Slf4j
 @RestController
 @RequestMapping("/matrixboot/idempotent")
 public class IdempotentController {
 
     @Resource
-    private IdempotentProperties properties;
+    private AbstractIdempotentService idempotentService;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
+    /**
+     * 获取 token
+     *
+     * @return String
+     */
     @GetMapping("/token")
-    public String token() {
-        String id = IdUtil.objectId();
-        stringRedisTemplate.opsForValue().set(getRedisKey(id), getLocalhost(), properties.getTimeout(), properties.getUnit());
-        return id;
-    }
-
-    private @NotNull String getRedisKey(String id) {
-        return properties.getRedisKeyPrefix() + id;
+    String token() {
+        log.debug("获取 token");
+        return idempotentService.generateToken();
     }
 
 }

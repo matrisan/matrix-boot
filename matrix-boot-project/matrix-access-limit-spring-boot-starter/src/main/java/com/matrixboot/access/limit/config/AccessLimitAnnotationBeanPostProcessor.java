@@ -108,7 +108,7 @@ public class AccessLimitAnnotationBeanPostProcessor implements BeanPostProcessor
         service.setParameterNameDiscoverer(beanFactory.getBean(ParameterNameDiscoverer.class));
         service.setStringRedisTemplate(beanFactory.getBean(StringRedisTemplate.class));
         service.setBeanResolver(beanFactory.getBean(BeanResolver.class));
-        service.setRedisScript((RedisScript<Boolean>) beanFactory.getBean("redisScript"));
+        service.setRedisScript((RedisScript<Boolean>) beanFactory.getBean("redisScriptAccessLimit"));
         service.setAccessLimitProperties(beanFactory.getBean(AccessLimitProperties.class));
         service.setEnvironment(beanFactory.getBean(Environment.class));
         service.afterPropertiesSet();

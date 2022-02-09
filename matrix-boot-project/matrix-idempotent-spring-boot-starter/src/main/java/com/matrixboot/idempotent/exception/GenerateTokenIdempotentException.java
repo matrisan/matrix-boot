@@ -1,4 +1,4 @@
-package com.matrixboot.idempotent.config;
+package com.matrixboot.idempotent.exception;
 
 
 
@@ -11,11 +11,11 @@ package com.matrixboot.idempotent.config;
  * @version 0.0.1
  */
 
-public class IdempotentException extends RuntimeException {
+public class GenerateTokenIdempotentException extends AbstractIdempotentException {
 
     private static final long serialVersionUID = -2655647751808440122L;
 
-    public IdempotentException(String message) {
+    public GenerateTokenIdempotentException(String message) {
         super(message);
     }
 }
