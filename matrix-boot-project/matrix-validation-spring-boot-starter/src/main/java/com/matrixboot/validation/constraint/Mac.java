@@ -10,6 +10,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * mac 地址校验
+ *
  * <p>
  * create in 2021/11/30 3:56 下午
  *

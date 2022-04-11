@@ -8,6 +8,7 @@
         <groupId>com.matrixboot</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>matrix-boot-project</artifactId>
@@ -20,12 +21,13 @@
     </properties>
 
     <modules>
-        <module>matrix-validation-spring-boot-starter</module>
-        <module>matrix-redis-stream-spring-boot-starter</module>
-        <module>matrix-excel-spring-boot-starter</module>
-        <module>matrix-idempotent-spring-boot-starter</module>
-        <module>matrix-semaphore-spring-boot-starter</module>
         <module>matrix-access-limit-spring-boot-starter</module>
+        <module>matrix-excel-spring-boot-starter</module>
+        <module>matrix-jackson-extension-spring-boot-starter</module>
+        <module>matrix-redis-stream-spring-boot-starter</module>
+        <module>matrix-semaphore-spring-boot-starter</module>
+        <module>matrix-idempotent-spring-boot-starter</module>
+        <module>matrix-validation-spring-boot-starter</module>
     </modules>
 
 

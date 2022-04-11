@@ -11,6 +11,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 不是内网的 IPV4
+ *
  * <p>
  * create in 2021/11/30 3:49 下午
  *

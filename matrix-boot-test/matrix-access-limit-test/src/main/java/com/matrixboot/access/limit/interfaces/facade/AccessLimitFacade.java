@@ -43,7 +43,7 @@ public class AccessLimitFacade {
         return queryData;
     }
 
-    @AccessLimit(value = "#queryData.username", message = "用户名请求次数超过了限制!", times = 4, timeout = 30, reveal = "reveal")
+    @AccessLimit(value = "#queryData.username", message = "用户名请求次数超过了限制!", times = 4, timeout = 30, recover = "reveal")
     @GetMapping("example4")
     public QueryData example4(QueryData queryData) {
         return queryData;
