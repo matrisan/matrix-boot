@@ -19,45 +19,51 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <matrix-access-limit.version>0.0.1-SNAPSHOT</matrix-access-limit.version>
-        <matrix-validation.version>0.0.1-SNAPSHOT</matrix-validation.version>
-        <matrix-excel.version>0.0.1-SNAPSHOT</matrix-excel.version>
-        <matrix-idempotent.version>0.0.1-SNAPSHOT</matrix-idempotent.version>
-        <matrix-redis-stream.version>0.0.1-SNAPSHOT</matrix-redis-stream.version>
-        <matrix-semaphore.version>0.0.1-SNAPSHOT</matrix-semaphore.version>
+        <matrix.version>${project.parent.version}</matrix.version>
+<!--        <matrix-access-limit.version>0.0.1-SNAPSHOT</matrix-access-limit.version>-->
+<!--        <matrix-validation.version>0.0.1-SNAPSHOT</matrix-validation.version>-->
+<!--        <matrix-excel.version>0.0.1-SNAPSHOT</matrix-excel.version>-->
+<!--        <matrix-idempotent.version>0.0.1-SNAPSHOT</matrix-idempotent.version>-->
+<!--        <matrix-redis-stream.version>0.0.1-SNAPSHOT</matrix-redis-stream.version>-->
+<!--        <matrix-semaphore.version>0.0.1-SNAPSHOT</matrix-semaphore.version>-->
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.matrixboot</groupId>
+                <artifactId>matrix-jackson-extension-spring-boot-starter</artifactId>
+                <version>${matrix.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-access-limit-spring-boot-starter</artifactId>
-                <version>${matrix-access-limit.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-validation-spring-boot-starter</artifactId>
-                <version>${matrix-validation.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-excel-spring-boot-starter</artifactId>
-                <version>${matrix-excel.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-idempotent-spring-boot-starter</artifactId>
-                <version>${matrix-idempotent.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-redis-stream-spring-boot-starter</artifactId>
-                <version>${matrix-redis-stream.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.matrixboot</groupId>
                 <artifactId>matrix-semaphore-spring-boot-starter</artifactId>
-                <version>${matrix-semaphore.version}</version>
+                <version>${matrix.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

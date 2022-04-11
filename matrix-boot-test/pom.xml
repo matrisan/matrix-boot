@@ -22,11 +22,8 @@
         <module>matrix-redis-stream-test</module>
         <module>matrix-semaphore-test</module>
         <module>matrix-validation-test</module>
+        <module>matrix-jackson-extension-test</module>
     </modules>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
 </project>
