@@ -1,0 +1,8 @@
+POST http://localhost:8080/excel
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="file.txt"
+
+< ./src/main/resources/test.xlsx
+--WebAppBoundary--
